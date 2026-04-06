@@ -7,6 +7,7 @@
 
 import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
+import { useLanguage } from "@/contexts/LanguageContext";
 import {
   Volume2, Lightbulb, Music, Users, Star, ChevronDown,
   MapPin, Mail, Phone, Menu, X, ArrowRight, Mic2, Zap
@@ -56,6 +57,7 @@ function AnimatedSection({ children, className = "" }: { children: React.ReactNo
 
 // ─── NAVBAR ──────────────────────────────────────────────────────────────────
 function Navbar() {
+  const { language, setLanguage } = useLanguage();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -749,6 +751,7 @@ function TestimonialCard({ testimonial, index }: { testimonial: any; index: numb
 
 // ─── CONTACT ──────────────────────────────────────────────────────────────────
 function Contact() {
+  const { t } = useLanguage();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -758,20 +761,46 @@ function Contact() {
     message: "",
   });
   const [submitted, setSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    setError("");
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Build mailto link
-    const subject = encodeURIComponent(`Anfrage: ${formData.eventType || "Event"} – ${formData.name}`);
-    const body = encodeURIComponent(
-      `Name: ${formData.name}\nE-Mail: ${formData.email}\nTelefon: ${formData.phone}\nVeranstaltungsart: ${formData.eventType}\nDatum: ${formData.date}\n\nNachricht:\n${formData.message}`
-    );
-    window.location.href = `mailto:stickupmarketing@gmail.com?subject=${subject}&body=${body}`;
-    setSubmitted(true);
+    setIsLoading(true);
+    setError("");
+
+    try {
+      const response = await fetch("/api/trpc/contact.submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          json: formData,
+        }),
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to submit form");
+      }
+
+      const result = await response.json();
+      if (result.result?.data?.success) {
+        setSubmitted(true);
+        setFormData({ name: "", email: "", phone: "", eventType: "", date: "", message: "" });
+      } else {
+        setError("Failed to submit. Please try again.");
+      }
+    } catch (err) {
+      setError("An error occurred. Please try again.");
+      console.error(err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const ref = useRef(null);
@@ -792,7 +821,7 @@ function Contact() {
             animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
             transition={{ duration: 0.8 }}
           >
-            <span className="section-label">Bereit für Ihr Event?</span>
+            <span className="section-label">{t("contact.label")}</span>
             <div className="hr-accent my-4" />
             <h2
               className="text-white mb-6"
@@ -803,12 +832,10 @@ function Contact() {
                 lineHeight: 1.05,
               }}
             >
-              Lassen Sie uns
-              <br />
-              gemeinsam planen
+              {t("contact.title")}
             </h2>
             <p className="text-white/60 mb-10 leading-relaxed" style={{ fontFamily: "'Barlow', sans-serif", fontWeight: 300 }}>
-              Schildern Sie uns Ihr Event und wir erstellen Ihnen ein maßgeschneidertes Angebot. Wir melden uns innerhalb von 24 Stunden bei Ihnen.
+              {t("contact.subtitle")}
             </p>
 
             <div className="space-y-5">
@@ -817,7 +844,7 @@ function Contact() {
                   <Mail size={16} className="text-white/60" />
                 </div>
                 <div>
-                  <div className="section-label mb-1">E-Mail</div>
+                  <div className="section-label mb-1">{t("contact.email.label")}</div>
                   <a href="mailto:stickupmarketing@gmail.com" className="text-white hover:text-white/70 transition-colors" style={{ fontFamily: "'Barlow', sans-serif" }}>
                     stickupmarketing@gmail.com
                   </a>
@@ -828,7 +855,7 @@ function Contact() {
                   <MapPin size={16} className="text-white/60" />
                 </div>
                 <div>
-                  <div className="section-label mb-1">Standort</div>
+                  <div className="section-label mb-1">{t("contact.location.label")}</div>
                   <span className="text-white" style={{ fontFamily: "'Barlow', sans-serif" }}>
                     Wuppertal, Deutschland
                   </span>
@@ -839,7 +866,7 @@ function Contact() {
                   <Zap size={16} className="text-white/60" />
                 </div>
                 <div>
-                  <div className="section-label mb-1">Einsatzgebiet</div>
+                  <div className="section-label mb-1">{t("contact.region.label")}</div>
                   <span className="text-white" style={{ fontFamily: "'Barlow', sans-serif" }}>
                     Deutschland · Österreich · Schweiz
                   </span>
@@ -860,37 +887,37 @@ function Contact() {
                   <Star size={40} className="mx-auto" />
                 </div>
                 <h3 className="text-white text-2xl mb-3" style={{ fontFamily: "'Oswald', sans-serif" }}>
-                  Vielen Dank!
+                  {t("contact.success.title")}
                 </h3>
                 <p className="text-white/60" style={{ fontFamily: "'Barlow', sans-serif", fontWeight: 300 }}>
-                  Ihre Anfrage wurde geöffnet. Wir melden uns so schnell wie möglich bei Ihnen.
+                  {t("contact.success.message")}
                 </p>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="section-label block mb-2">Name *</label>
+                    <label className="section-label block mb-2">{t("contact.form.name")}</label>
                     <input
                       type="text"
                       name="name"
                       required
                       value={formData.name}
                       onChange={handleChange}
-                      placeholder="Ihr vollständiger Name"
+                      placeholder={t("contact.form.name.placeholder")}
                       className="w-full bg-white/5 border border-white/15 text-white placeholder-white/25 px-4 py-3 text-sm focus:outline-none focus:border-white/50 transition-colors"
                       style={{ fontFamily: "'Barlow', sans-serif" }}
                     />
                   </div>
                   <div>
-                    <label className="section-label block mb-2">E-Mail *</label>
+                    <label className="section-label block mb-2">{t("contact.form.email")}</label>
                     <input
                       type="email"
                       name="email"
                       required
                       value={formData.email}
                       onChange={handleChange}
-                      placeholder="ihre@email.de"
+                      placeholder={t("contact.form.email.placeholder")}
                       className="w-full bg-white/5 border border-white/15 text-white placeholder-white/25 px-4 py-3 text-sm focus:outline-none focus:border-white/50 transition-colors"
                       style={{ fontFamily: "'Barlow', sans-serif" }}
                     />
@@ -898,19 +925,19 @@ function Contact() {
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="section-label block mb-2">Telefon</label>
+                    <label className="section-label block mb-2">{t("contact.form.phone")}</label>
                     <input
                       type="tel"
                       name="phone"
                       value={formData.phone}
                       onChange={handleChange}
-                      placeholder="+49 ..."
+                      placeholder={t("contact.form.phone.placeholder")}
                       className="w-full bg-white/5 border border-white/15 text-white placeholder-white/25 px-4 py-3 text-sm focus:outline-none focus:border-white/50 transition-colors"
                       style={{ fontFamily: "'Barlow', sans-serif" }}
                     />
                   </div>
                   <div>
-                    <label className="section-label block mb-2">Veranstaltungsart *</label>
+                    <label className="section-label block mb-2">{t("contact.form.eventtype")}</label>
                     <select
                       name="eventType"
                       required
@@ -919,17 +946,17 @@ function Contact() {
                       className="w-full bg-[#111] border border-white/15 text-white px-4 py-3 text-sm focus:outline-none focus:border-white/50 transition-colors appearance-none"
                       style={{ fontFamily: "'Barlow', sans-serif" }}
                     >
-                      <option value="" disabled>Bitte wählen</option>
-                      <option value="Festival">Festival</option>
-                      <option value="Hochzeit">Hochzeit</option>
-                      <option value="Private Feier">Private Feier</option>
-                      <option value="Firmenevent">Firmenevent</option>
-                      <option value="Sonstiges">Sonstiges</option>
+                      <option value="" disabled>{t("contact.form.eventtype.select")}</option>
+                      <option value="Festival">{t("contact.form.eventtype.festival")}</option>
+                      <option value="Hochzeit">{t("contact.form.eventtype.wedding")}</option>
+                      <option value="Private Feier">{t("contact.form.eventtype.private")}</option>
+                      <option value="Firmenevent">{t("contact.form.eventtype.corporate")}</option>
+                      <option value="Sonstiges">{t("contact.form.eventtype.other")}</option>
                     </select>
                   </div>
                 </div>
                 <div>
-                  <label className="section-label block mb-2">Datum der Veranstaltung</label>
+                  <label className="section-label block mb-2">{t("contact.form.date")}</label>
                   <input
                     type="date"
                     name="date"
@@ -940,20 +967,21 @@ function Contact() {
                   />
                 </div>
                 <div>
-                  <label className="section-label block mb-2">Ihre Nachricht *</label>
+                  <label className="section-label block mb-2">{t("contact.form.message")}</label>
                   <textarea
                     name="message"
                     required
                     value={formData.message}
                     onChange={handleChange}
                     rows={5}
-                    placeholder="Beschreiben Sie Ihr Event, den Veranstaltungsort, die erwartete Gästezahl und welche Leistungen Sie benötigen..."
+                    placeholder={t("contact.form.message.placeholder")}
                     className="w-full bg-white/5 border border-white/15 text-white placeholder-white/25 px-4 py-3 text-sm focus:outline-none focus:border-white/50 transition-colors resize-none"
                     style={{ fontFamily: "'Barlow', sans-serif" }}
                   />
                 </div>
-                <button type="submit" className="btn-primary w-full justify-center mt-2">
-                  Anfrage absenden <ArrowRight size={16} />
+                {error && <div className="text-red-400 text-sm mb-2">{error}</div>}
+                <button type="submit" disabled={isLoading} className="btn-primary w-full justify-center mt-2 disabled:opacity-50 disabled:cursor-not-allowed">
+                  {isLoading ? "Wird gesendet..." : t("contact.form.submit")} {!isLoading && <ArrowRight size={16} />}
                 </button>
               </form>
             )}
@@ -1038,6 +1066,10 @@ function Footer() {
 
         {/* Bottom bar */}
         <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-2">
+            <span className="text-white/40 text-xs">Language:</span>
+            <LanguageToggle />
+          </div>
           <p className="text-white/30 text-xs" style={{ fontFamily: "'Barlow', sans-serif" }}>
             © {new Date().getFullYear()} BLACK GIANT SOUNDS. Alle Rechte vorbehalten.
           </p>
@@ -1047,6 +1079,33 @@ function Footer() {
         </div>
       </div>
     </footer>
+  );
+}
+
+// ─── LANGUAGE TOGGLE ─────────────────────────────────────────────────────────────
+function LanguageToggle() {
+  const { language, setLanguage } = useLanguage();
+
+  return (
+    <div className="flex items-center gap-2">
+      <button
+        onClick={() => setLanguage("de")}
+        className={`text-xs font-semibold transition-colors ${
+          language === "de" ? "text-white" : "text-white/40 hover:text-white/70"
+        }`}
+      >
+        DE
+      </button>
+      <span className="text-white/20">|</span>
+      <button
+        onClick={() => setLanguage("en")}
+        className={`text-xs font-semibold transition-colors ${
+          language === "en" ? "text-white" : "text-white/40 hover:text-white/70"
+        }`}
+      >
+        EN
+      </button>
+    </div>
   );
 }
 
