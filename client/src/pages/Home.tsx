@@ -206,8 +206,8 @@ function Hero() {
           className="text-white/70 text-lg md:text-xl max-w-2xl mx-auto mb-10"
           style={{ fontFamily: "'Barlow', sans-serif", fontWeight: 300 }}
         >
-          Professionelle PA-Systeme, Lichtanlagen, DJs und Entertainmentservices
-          für Festivals, Hochzeiten und private Veranstaltungen.
+          Professionelle PA-Vermietung, Lichtanlage Vermietung, DJ Equipment & Entertainment
+          für Festivals, Hochzeiten und private Events in Wuppertal, Deutschland, Österreich & Schweiz.
         </motion.p>
 
         <motion.div
@@ -297,40 +297,40 @@ function Services() {
     {
       id: "01",
       icon: <Volume2 size={28} />,
-      title: "PA-Systeme",
-      subtitle: "Professionelle Beschallung",
+      title: "PA-Systeme Vermietung",
+      subtitle: "Professionelle Soundanlage mieten",
       description:
-        "Von kleinen Privatfeiern bis hin zu großen Festivals — wir liefern und betreiben professionelle PA-Systeme der neuesten Generation. Line-Array-Systeme, Subwoofer, Monitore und vollständige Signalketten für kristallklaren Sound.",
+        "PA Vermietung Wuppertal: Von kleinen Privatfeiern bis hin zu großen Festivals — wir liefern und betreiben professionelle PA-Systeme & Soundanlagen der neuesten Generation. Line-Array-Systeme, Subwoofer, Monitore und vollständige Signalketten für kristallklaren Sound",
       image: IMAGES.pa,
       features: ["Line-Array-Systeme", "Subwoofer & Monitore", "Digitale Mischpulte", "Technischer Support vor Ort"],
     },
     {
       id: "02",
       icon: <Lightbulb size={28} />,
-      title: "Lichtanlagen",
-      subtitle: "Atmosphäre & Bühnenlicht",
+      title: "Lichtanlage Vermietung",
+      subtitle: "Event Technik Vermietung",
       description:
-        "Unsere professionellen Lichtanlagen verwandeln jeden Raum in ein Erlebnis. Moving Heads, Beam-Lights, LED-Wände, Hazer und Uplighting — wir erschaffen die perfekte Atmosphäre für Ihr Event.",
+        "Lichtanlage mieten: Unsere professionellen Lichtanlagen verwandeln jeden Raum in ein Erlebnis. Moving Heads, Beam-Lights, LED-Wände, Hazer und Uplighting — wir erschaffen die perfekte Atmosphäre für Ihr Event in Deutschland, Österreich & der Schweiz",
       image: IMAGES.lighting,
       features: ["Moving Head Spots", "Beam & Wash Lights", "LED-Wände & Strips", "Hazer & Nebelmaschinen"],
     },
     {
       id: "03",
       icon: <Music size={28} />,
-      title: "DJ-Service",
-      subtitle: "Musik für jeden Anlass",
+      title: "DJ Equipment Vermietung",
+      subtitle: "DJ-Service & Hochzeit DJ",
       description:
-        "Unsere erfahrenen DJs lesen die Stimmung und sorgen für eine unvergessliche Tanzfläche. Von Hochzeits-Playlist bis hin zu Festival-Headliner-Sets — wir haben den richtigen Sound für Ihren Anlass.",
+        "DJ Vermietung Wuppertal: Unsere erfahrenen DJs lesen die Stimmung und sorgen für eine unvergessliche Tanzfläche. Hochzeit DJ, Festival DJs, Private Event DJ — wir haben den richtigen Sound für Ihren Anlass",
       image: IMAGES.dj,
       features: ["Hochzeits-DJs", "Festival & Club-DJs", "Moderations-Service", "Komplette Musikplanung"],
     },
     {
       id: "04",
       icon: <Users size={28} />,
-      title: "Entertainment",
-      subtitle: "Tänzer & Show-Acts",
+       title: "Entertainment Services",
+      subtitle: "Tänzer, Show-Acts & Entertainment",
       description:
-        "Für besondere Momente bieten wir professionelle Tänzer und Show-Acts an. Von eleganten Showdance-Performances bis hin zu energiegeladenen Tanzshows — wir bringen Ihre Veranstaltung auf ein neues Level.",
+        "Entertainment Vermietung: Für besondere Momente bieten wir professionelle Tänzer und Show-Acts an. Von eleganten Showdance-Performances bis hin zu energiegeladenen Tanzshows — wir bringen Ihre Veranstaltung auf ein neues Level",
       image: IMAGES.entertainment,
       features: ["Professionelle Tänzer", "Showdance & Choreografie", "Thematische Performances", "Komplettpaket buchbar"],
     },
