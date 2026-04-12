@@ -74,6 +74,13 @@
     color: #f5f5f5;
     overflow-x: hidden;
   }
+  /* Mobile image brightness optimization */
+  @media (max-width: 768px) {
+    img {
+      filter: brightness(1.15) contrast(1.1);
+    }
+  }
+
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Oswald', sans-serif;
     font-weight: 700;
