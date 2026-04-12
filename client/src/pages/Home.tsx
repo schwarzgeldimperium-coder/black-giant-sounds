@@ -16,12 +16,12 @@ import {
 // CDN image URLs
 const IMAGES = {
   logo: "https://d2xsxph8kpxj0f.cloudfront.net/310519663520895993/U3dMJYzFtBD7XBUPYHqXha/logo_b4cba9d4.png",
-  hero: "https://d2xsxph8kpxj0f.cloudfront.net/310519663520895993/U3dMJYzFtBD7XBUPYHqXha/hero_dea20526.png",
-  pa: "https://d2xsxph8kpxj0f.cloudfront.net/310519663520895993/U3dMJYzFtBD7XBUPYHqXha/pa_section_38ed0788.png",
-  lighting: "https://d2xsxph8kpxj0f.cloudfront.net/310519663520895993/U3dMJYzFtBD7XBUPYHqXha/lighting_section_26b909d0.png",
-  dj: "https://d2xsxph8kpxj0f.cloudfront.net/310519663520895993/U3dMJYzFtBD7XBUPYHqXha/dj_section_ecb48fc4.png",
-  wedding: "https://d2xsxph8kpxj0f.cloudfront.net/310519663520895993/U3dMJYzFtBD7XBUPYHqXha/wedding_section_718d5910.png",
-  entertainment: "https://d2xsxph8kpxj0f.cloudfront.net/310519663520895993/U3dMJYzFtBD7XBUPYHqXha/entertainment_section_0ad51a84.png",
+  hero: "https://d2xsxph8kpxj0f.cloudfront.net/310519663520895993/U3dMJYzFtBD7XBUPYHqXha/hero_bright-QSjzALkUGuhfjcGumc8Pdz.webp",
+  pa: "https://d2xsxph8kpxj0f.cloudfront.net/310519663520895993/U3dMJYzFtBD7XBUPYHqXha/pa_bright-EhMYwe5AimhTDcXYbYtWhW.webp",
+  lighting: "https://d2xsxph8kpxj0f.cloudfront.net/310519663520895993/U3dMJYzFtBD7XBUPYHqXha/lighting_bright-g3QFWaTrSJfufFCGGaBXke.webp",
+  dj: "https://d2xsxph8kpxj0f.cloudfront.net/310519663520895993/U3dMJYzFtBD7XBUPYHqXha/dj_bright-JtpZQBQfNrj4bpxCxyhXav.webp",
+  wedding: "https://d2xsxph8kpxj0f.cloudfront.net/310519663520895993/U3dMJYzFtBD7XBUPYHqXha/wedding_bright-jouoFqzzLnxtXfJZtxbHan.webp",
+  entertainment: "https://d2xsxph8kpxj0f.cloudfront.net/310519663520895993/U3dMJYzFtBD7XBUPYHqXha/dj_bright-JtpZQBQfNrj4bpxCxyhXav.webp",
 };
 
 // Animation variants
