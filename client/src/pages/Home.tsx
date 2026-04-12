@@ -576,11 +576,10 @@ function About() {
           >
             <div className="relative overflow-hidden" style={{ aspectRatio: "4/5" }}>
               <img
-                src={IMAGES.entertainment}
-                alt="Entertainment Performance"
+                src="https://d2xsxph8kpxj0f.cloudfront.net/310519663520895993/U3dMJYzFtBD7XBUPYHqXha/dj_about_section_959ad2b7.png"
+                alt="DJ Performance - Leidenschaft für den perfekten Sound"
                 className="w-full h-full object-cover"
               />
-              <div className="absolute inset-0 bg-black/20" />
             </div>
             {/* Offset accent box */}
             <div
