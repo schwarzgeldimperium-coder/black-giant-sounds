@@ -19,9 +19,10 @@ const IMAGES = {
   hero: "https://d2xsxph8kpxj0f.cloudfront.net/310519663520895993/U3dMJYzFtBD7XBUPYHqXha/hero_bright-QSjzALkUGuhfjcGumc8Pdz.webp",
   pa: "https://d2xsxph8kpxj0f.cloudfront.net/310519663520895993/U3dMJYzFtBD7XBUPYHqXha/pa_bright-EhMYwe5AimhTDcXYbYtWhW.webp",
   lighting: "https://d2xsxph8kpxj0f.cloudfront.net/310519663520895993/U3dMJYzFtBD7XBUPYHqXha/lighting_bright-g3QFWaTrSJfufFCGGaBXke.webp",
-  dj: "https://d2xsxph8kpxj0f.cloudfront.net/310519663520895993/U3dMJYzFtBD7XBUPYHqXha/dj_bright-JtpZQBQfNrj4bpxCxyhXav.webp",
+  dj: "https://d2xsxph8kpxj0f.cloudfront.net/310519663520895993/U3dMJYzFtBD7XBUPYHqXha/dj_equipment_bright-DLGckij2Y3YMNJCUNSrTRR.webp",
   wedding: "https://d2xsxph8kpxj0f.cloudfront.net/310519663520895993/U3dMJYzFtBD7XBUPYHqXha/wedding_bright-jouoFqzzLnxtXfJZtxbHan.webp",
-  entertainment: "https://d2xsxph8kpxj0f.cloudfront.net/310519663520895993/U3dMJYzFtBD7XBUPYHqXha/dj_bright-JtpZQBQfNrj4bpxCxyhXav.webp",
+  entertainment: "https://d2xsxph8kpxj0f.cloudfront.net/310519663520895993/U3dMJYzFtBD7XBUPYHqXha/entertainment_dancers_bright-JVmCMQwNhJL6hz9NTKNcaf.webp",
+  privateFeiern: "https://d2xsxph8kpxj0f.cloudfront.net/310519663520895993/U3dMJYzFtBD7XBUPYHqXha/private_event_bright-Qk2BCBFdLULe4vCm3RLrGU.webp",
 };
 
 // Animation variants
@@ -464,7 +465,7 @@ function Events() {
       title: "Private Feiern",
       description:
         "Geburtstage, Firmenevents, Jubiläen — wir bringen professionelle Veranstaltungstechnik zu Ihnen nach Hause oder in Ihre Eventlocation.",
-      image: IMAGES.dj,
+      image: IMAGES.privateFeiern,
     },
   ];
 
