@@ -74,11 +74,9 @@
     color: #f5f5f5;
     overflow-x: hidden;
   }
-  /* Mobile image brightness optimization */
-  @media (max-width: 768px) {
-    img {
-      filter: brightness(1.15) contrast(1.1);
-    }
+  /* Images kept at full brightness for better mobile appeal */
+  img {
+    filter: brightness(1) contrast(1);
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -180,15 +178,10 @@
     border-color: rgba(255,255,255,0.35);
     transform: translateY(-4px);
   }
-  .service-card:hover .card-overlay {
-    opacity: 0.55;
-  }
-  .service-card:hover .card-img {
-    transform: scale(1.05);
-  }
+  /* Hover effects removed for cleaner mobile experience */
 
   .card-img {
-    transition: transform 0.6s ease;
+    /* Transform removed for cleaner mobile experience */
   }
 
   .card-overlay {
