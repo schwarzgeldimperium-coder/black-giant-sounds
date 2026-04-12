@@ -4,6 +4,7 @@ import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, router } from "./_core/trpc";
 import { z } from "zod";
 import { notifyOwner } from "./_core/notification";
+import { sendEmail, generateContactEmailHTML } from "./_core/email";
 
 export const appRouter = router({
     // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
@@ -34,8 +35,18 @@ export const appRouter = router({
       )
       .mutation(async ({ input }) => {
         try {
-          // Notify owner of new submission
-          const submissionDetails = `
+          // Send email to stickupmarketing@gmail.com
+          const emailHtml = generateContactEmailHTML(input);
+          const emailSent = await sendEmail({
+            to: "stickupmarketing@gmail.com",
+            subject: `Neue Event-Anfrage von ${input.name} - BLACK GIANT SOUNDS`,
+            html: emailHtml,
+          });
+
+          if (!emailSent) {
+            console.warn("[Contact Form] Email sending failed, attempting notification fallback");
+            // Fallback: notify owner through Manus notification system
+            const submissionDetails = `
 Name: ${input.name}
 Email: ${input.email}
 Phone: ${input.phone || "Not provided"}
@@ -44,12 +55,13 @@ Event Date: ${input.date || "Not specified"}
 
 Message:
 ${input.message}
-          `.trim();
+            `.trim();
 
-          await notifyOwner({
-            title: `New Event Inquiry from ${input.name}`,
-            content: submissionDetails,
-          });
+            await notifyOwner({
+              title: `New Event Inquiry from ${input.name}`,
+              content: submissionDetails,
+            });
+          }
 
           return {
             success: true,
