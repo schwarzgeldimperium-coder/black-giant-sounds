@@ -338,10 +338,10 @@ function Services() {
   ];
 
   return (
-    <section id="leistungen" className="py-24 md:py-32 bg-[#0a0a0a] relative overflow-hidden">
+    <section id="leistungen" className="py-24 md:py-32 bg-white relative overflow-hidden">
       {/* Ghost text */}
       <div className="absolute top-12 left-0 right-0 overflow-hidden pointer-events-none">
-        <div className="ghost-text text-center">SERVICES</div>
+        <div className="ghost-text text-center text-black/10">SERVICES</div>
       </div>
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
@@ -350,7 +350,7 @@ function Services() {
             <span className="section-label">Was wir bieten</span>
             <div className="hr-accent my-4" />
             <h2
-              className="text-white"
+              className="text-black"
               style={{
                 fontFamily: "'Oswald', sans-serif",
                 fontWeight: 700,
@@ -412,12 +412,12 @@ function ServiceCard({ service, reverse }: { service: any; reverse: boolean }) {
 
       {/* Content */}
       <div className="md:w-1/2 p-8 md:p-12 flex flex-col justify-center">
-        <div className="flex items-center gap-3 mb-4 text-white/50">
+        <div className="flex items-center gap-3 mb-4 text-black/50">
           {service.icon}
-          <span className="section-label">{service.subtitle}</span>
+          <span className="section-label text-black/70">{service.subtitle}</span>
         </div>
         <h3
-          className="text-white mb-4"
+          className="text-black mb-4"
           style={{
             fontFamily: "'Oswald', sans-serif",
             fontWeight: 700,
@@ -427,13 +427,13 @@ function ServiceCard({ service, reverse }: { service: any; reverse: boolean }) {
         >
           {service.title}
         </h3>
-        <p className="text-white/60 mb-6 leading-relaxed" style={{ fontFamily: "'Barlow', sans-serif", fontWeight: 300 }}>
+        <p className="text-black/70 mb-6 leading-relaxed" style={{ fontFamily: "'Barlow', sans-serif", fontWeight: 300 }}>
           {service.description}
         </p>
         <ul className="space-y-2">
           {service.features.map((f: string) => (
-            <li key={f} className="flex items-center gap-3 text-white/70 text-sm" style={{ fontFamily: "'Barlow', sans-serif" }}>
-              <span className="w-1 h-1 bg-white rounded-full flex-shrink-0" />
+            <li key={f} className="flex items-center gap-3 text-black/60 text-sm" style={{ fontFamily: "'Barlow', sans-serif" }}>
+              <span className="w-1 h-1 bg-black rounded-full flex-shrink-0" />
               {f}
             </li>
           ))}
@@ -470,9 +470,9 @@ function Events() {
   ];
 
   return (
-    <section id="veranstaltungen" className="py-24 md:py-32 bg-[#0d0d0d] relative overflow-hidden">
+    <section id="veranstaltungen" className="py-24 md:py-32 bg-white relative overflow-hidden">
       <div className="absolute top-0 left-0 right-0 overflow-hidden pointer-events-none">
-        <div className="ghost-text">EVENTS</div>
+        <div className="ghost-text text-black/10">EVENTS</div>
       </div>
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
@@ -481,7 +481,7 @@ function Events() {
             <span className="section-label">Für jeden Anlass</span>
             <div className="hr-accent my-4" />
             <h2
-              className="text-white"
+              className="text-black"
               style={{
                 fontFamily: "'Oswald', sans-serif",
                 fontWeight: 700,
@@ -526,14 +526,14 @@ function EventCard({ event, index }: { event: any; index: number }) {
         />
         <div className="card-overlay absolute inset-0 bg-black" />
         <div className="absolute inset-0 flex items-end p-6">
-          <div className="text-white/30 group-hover:text-white/60 transition-colors duration-300">
+          <div className="text-black/30 group-hover:text-black/60 transition-colors duration-300">
             {event.icon}
           </div>
         </div>
       </div>
       <div className="p-6 md:p-8">
         <h3
-          className="text-white mb-3"
+          className="text-black mb-3"
           style={{
             fontFamily: "'Oswald', sans-serif",
             fontWeight: 600,
@@ -543,7 +543,7 @@ function EventCard({ event, index }: { event: any; index: number }) {
         >
           {event.title}
         </h3>
-        <p className="text-white/55 text-sm leading-relaxed" style={{ fontFamily: "'Barlow', sans-serif", fontWeight: 300 }}>
+        <p className="text-black/55 text-sm leading-relaxed" style={{ fontFamily: "'Barlow', sans-serif", fontWeight: 300 }}>
           {event.description}
         </p>
       </div>
@@ -807,9 +807,9 @@ function Contact() {
   const isInView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section id="kontakt" className="py-24 md:py-32 bg-[#0d0d0d] relative overflow-hidden">
+    <section id="kontakt" className="py-24 md:py-32 bg-white relative overflow-hidden">
       <div className="absolute top-0 left-0 right-0 overflow-hidden pointer-events-none">
-        <div className="ghost-text">KONTAKT</div>
+        <div className="ghost-text text-black/10">KONTAKT</div>
       </div>
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
@@ -824,7 +824,7 @@ function Contact() {
             <span className="section-label">{t("contact.label")}</span>
             <div className="hr-accent my-4" />
             <h2
-              className="text-white mb-6"
+              className="text-black mb-6"
               style={{
                 fontFamily: "'Oswald', sans-serif",
                 fontWeight: 700,
@@ -834,40 +834,40 @@ function Contact() {
             >
               {t("contact.title")}
             </h2>
-            <p className="text-white/60 mb-10 leading-relaxed" style={{ fontFamily: "'Barlow', sans-serif", fontWeight: 300 }}>
+            <p className="text-black/60 mb-10 leading-relaxed" style={{ fontFamily: "'Barlow', sans-serif", fontWeight: 300 }}>
               {t("contact.subtitle")}
             </p>
 
             <div className="space-y-5">
               <div className="flex items-start gap-4">
-                <div className="w-10 h-10 border border-white/20 flex items-center justify-center flex-shrink-0">
-                  <Mail size={16} className="text-white/60" />
+                <div className="w-10 h-10 border border-black/20 flex items-center justify-center flex-shrink-0">
+                  <Mail size={16} className="text-black/60" />
                 </div>
                 <div>
-                  <div className="section-label mb-1">{t("contact.email.label")}</div>
-                  <a href="mailto:stickupmarketing@gmail.com" className="text-white hover:text-white/70 transition-colors" style={{ fontFamily: "'Barlow', sans-serif" }}>
+                  <div className="section-label mb-1 text-black/70">{t("contact.email.label")}</div>
+                  <a href="mailto:stickupmarketing@gmail.com" className="text-black hover:text-black/70 transition-colors" style={{ fontFamily: "'Barlow', sans-serif" }}>
                     stickupmarketing@gmail.com
                   </a>
                 </div>
               </div>
               <div className="flex items-start gap-4">
-                <div className="w-10 h-10 border border-white/20 flex items-center justify-center flex-shrink-0">
-                  <MapPin size={16} className="text-white/60" />
+                <div className="w-10 h-10 border border-black/20 flex items-center justify-center flex-shrink-0">
+                  <MapPin size={16} className="text-black/60" />
                 </div>
                 <div>
-                  <div className="section-label mb-1">{t("contact.location.label")}</div>
-                  <span className="text-white" style={{ fontFamily: "'Barlow', sans-serif" }}>
+                  <div className="section-label mb-1 text-black/70">{t("contact.location.label")}</div>
+                  <span className="text-black" style={{ fontFamily: "'Barlow', sans-serif" }}>
                     Wuppertal, Deutschland
                   </span>
                 </div>
               </div>
               <div className="flex items-start gap-4">
-                <div className="w-10 h-10 border border-white/20 flex items-center justify-center flex-shrink-0">
-                  <Zap size={16} className="text-white/60" />
+                <div className="w-10 h-10 border border-black/20 flex items-center justify-center flex-shrink-0">
+                  <Zap size={16} className="text-black/60" />
                 </div>
                 <div>
-                  <div className="section-label mb-1">{t("contact.region.label")}</div>
-                  <span className="text-white" style={{ fontFamily: "'Barlow', sans-serif" }}>
+                  <div className="section-label mb-1 text-black/70">{t("contact.region.label")}</div>
+                  <span className="text-black" style={{ fontFamily: "'Barlow', sans-serif" }}>
                     Deutschland · Österreich · Schweiz
                   </span>
                 </div>
@@ -882,14 +882,14 @@ function Contact() {
             transition={{ duration: 0.8, delay: 0.2 }}
           >
             {submitted ? (
-              <div className="border border-white/20 p-10 text-center">
-                <div className="text-white/30 mb-4">
+              <div className="border border-black/20 p-10 text-center">
+                <div className="text-black/30 mb-4">
                   <Star size={40} className="mx-auto" />
                 </div>
-                <h3 className="text-white text-2xl mb-3" style={{ fontFamily: "'Oswald', sans-serif" }}>
+                <h3 className="text-black text-2xl mb-3" style={{ fontFamily: "'Oswald', sans-serif" }}>
                   {t("contact.success.title")}
                 </h3>
-                <p className="text-white/60" style={{ fontFamily: "'Barlow', sans-serif", fontWeight: 300 }}>
+                <p className="text-black/60" style={{ fontFamily: "'Barlow', sans-serif", fontWeight: 300 }}>
                   {t("contact.success.message")}
                 </p>
               </div>
@@ -897,7 +897,7 @@ function Contact() {
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="section-label block mb-2">{t("contact.form.name")}</label>
+                    <label className="section-label block mb-2 text-black/70">{t("contact.form.name")}</label>
                     <input
                       type="text"
                       name="name"
@@ -905,12 +905,12 @@ function Contact() {
                       value={formData.name}
                       onChange={handleChange}
                       placeholder={t("contact.form.name.placeholder")}
-                      className="w-full bg-white/5 border border-white/15 text-white placeholder-white/25 px-4 py-3 text-sm focus:outline-none focus:border-white/50 transition-colors"
+                      className="w-full bg-black/5 border border-black/15 text-black placeholder-black/25 px-4 py-3 text-sm focus:outline-none focus:border-black/50 transition-colors"
                       style={{ fontFamily: "'Barlow', sans-serif" }}
                     />
                   </div>
                   <div>
-                    <label className="section-label block mb-2">{t("contact.form.email")}</label>
+                    <label className="section-label block mb-2 text-black/70">{t("contact.form.email")}</label>
                     <input
                       type="email"
                       name="email"
@@ -918,32 +918,32 @@ function Contact() {
                       value={formData.email}
                       onChange={handleChange}
                       placeholder={t("contact.form.email.placeholder")}
-                      className="w-full bg-white/5 border border-white/15 text-white placeholder-white/25 px-4 py-3 text-sm focus:outline-none focus:border-white/50 transition-colors"
+                      className="w-full bg-black/5 border border-black/15 text-black placeholder-black/25 px-4 py-3 text-sm focus:outline-none focus:border-black/50 transition-colors"
                       style={{ fontFamily: "'Barlow', sans-serif" }}
                     />
                   </div>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="section-label block mb-2">{t("contact.form.phone")}</label>
+                    <label className="section-label block mb-2 text-black/70">{t("contact.form.phone")}</label>
                     <input
                       type="tel"
                       name="phone"
                       value={formData.phone}
                       onChange={handleChange}
                       placeholder={t("contact.form.phone.placeholder")}
-                      className="w-full bg-white/5 border border-white/15 text-white placeholder-white/25 px-4 py-3 text-sm focus:outline-none focus:border-white/50 transition-colors"
+                      className="w-full bg-black/5 border border-black/15 text-black placeholder-black/25 px-4 py-3 text-sm focus:outline-none focus:border-black/50 transition-colors"
                       style={{ fontFamily: "'Barlow', sans-serif" }}
                     />
                   </div>
                   <div>
-                    <label className="section-label block mb-2">{t("contact.form.eventtype")}</label>
+                    <label className="section-label block mb-2 text-black/70">{t("contact.form.eventtype")}</label>
                     <select
                       name="eventType"
                       required
                       value={formData.eventType}
                       onChange={handleChange}
-                      className="w-full bg-[#111] border border-white/15 text-white px-4 py-3 text-sm focus:outline-none focus:border-white/50 transition-colors appearance-none"
+                      className="w-full bg-white border border-black/15 text-black px-4 py-3 text-sm focus:outline-none focus:border-black/50 transition-colors appearance-none"
                       style={{ fontFamily: "'Barlow', sans-serif" }}
                     >
                       <option value="" disabled>{t("contact.form.eventtype.select")}</option>
@@ -1007,13 +1007,13 @@ function Footer() {
   };
 
   return (
-    <footer className="bg-black border-t border-white/10 py-14 md:py-16">
+    <footer className="bg-white border-t border-black/10 py-14 md:py-16">
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-12">
           {/* Brand */}
           <div>
             <img src={IMAGES.logo} alt="Black Giant Sounds" className="h-14 w-auto mb-4" />
-            <p className="text-white/45 text-sm leading-relaxed" style={{ fontFamily: "'Barlow', sans-serif", fontWeight: 300 }}>
+            <p className="text-black/45 text-sm leading-relaxed" style={{ fontFamily: "'Barlow', sans-serif", fontWeight: 300 }}>
               Professionelle PA-Systeme, Lichtanlagen und Entertainment für unvergessliche Events.
             </p>
           </div>
@@ -1021,7 +1021,7 @@ function Footer() {
           {/* Navigation */}
           <div>
             <h4
-              className="text-white mb-5 text-sm tracking-widest uppercase"
+              className="text-black mb-5 text-sm tracking-widest uppercase"
               style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 600 }}
             >
               Navigation
@@ -1031,7 +1031,7 @@ function Footer() {
                 <li key={link.href}>
                   <button
                     onClick={() => scrollTo(link.href)}
-                    className="text-white/45 hover:text-white text-sm transition-colors"
+                    className="text-black/45 hover:text-black text-sm transition-colors"
                     style={{ fontFamily: "'Barlow', sans-serif" }}
                   >
                     {link.label}
@@ -1044,19 +1044,19 @@ function Footer() {
           {/* Contact */}
           <div>
             <h4
-              className="text-white mb-5 text-sm tracking-widest uppercase"
+              className="text-black mb-5 text-sm tracking-widest uppercase"
               style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 600 }}
             >
               Kontakt
             </h4>
             <div className="space-y-3">
-              <div className="flex items-center gap-3 text-white/45 text-sm" style={{ fontFamily: "'Barlow', sans-serif" }}>
+              <div className="flex items-center gap-3 text-black/45 text-sm" style={{ fontFamily: "'Barlow', sans-serif" }}>
                 <MapPin size={14} className="flex-shrink-0" />
                 Wuppertal, Deutschland
               </div>
-              <div className="flex items-center gap-3 text-white/45 text-sm" style={{ fontFamily: "'Barlow', sans-serif" }}>
+              <div className="flex items-center gap-3 text-black/45 text-sm" style={{ fontFamily: "'Barlow', sans-serif" }}>
                 <Mail size={14} className="flex-shrink-0" />
-                <a href="mailto:stickupmarketing@gmail.com" className="hover:text-white transition-colors break-all">
+                <a href="mailto:stickupmarketing@gmail.com" className="hover:text-black transition-colors break-all">
                   stickupmarketing@gmail.com
                 </a>
               </div>
@@ -1065,15 +1065,15 @@ function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="border-t border-black/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
-            <span className="text-white/40 text-xs">Language:</span>
+            <span className="text-black/40 text-xs">Language:</span>
             <LanguageToggle />
           </div>
-          <p className="text-white/30 text-xs" style={{ fontFamily: "'Barlow', sans-serif" }}>
+          <p className="text-black/30 text-xs" style={{ fontFamily: "'Barlow', sans-serif" }}>
             © {new Date().getFullYear()} BLACK GIANT SOUNDS. Alle Rechte vorbehalten.
           </p>
-          <p className="text-white/20 text-xs" style={{ fontFamily: "'Barlow', sans-serif" }}>
+          <p className="text-black/20 text-xs" style={{ fontFamily: "'Barlow', sans-serif" }}>
             Wuppertal · Deutschland · Österreich · Schweiz
           </p>
         </div>
