@@ -1,439 +1,360 @@
 /*
  * BLACK GIANT SOUNDS — Home Page
- * Design: Dark Cinematic / High-Contrast Editorial
- * Full single-page layout in German
- * Sections: Nav, Hero, About, Services (PA, Lighting, DJ, Entertainment), Events, Contact, Footer
+ * Design: Clean Black & White Editorial
+ * Full single-page layout in German with bilingual support
+ * NO dark overlays — clean, modern aesthetic
  */
 
 import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
-import { useLanguage } from "@/contexts/LanguageContext";
 import {
   Volume2, Lightbulb, Music, Users, Star, ChevronDown,
   MapPin, Mail, Phone, Menu, X, ArrowRight, Mic2, Zap
 } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 // CDN image URLs
 const IMAGES = {
   logo: "https://d2xsxph8kpxj0f.cloudfront.net/310519663520895993/U3dMJYzFtBD7XBUPYHqXha/logo_b4cba9d4.png",
-  hero: "https://d2xsxph8kpxj0f.cloudfront.net/310519663520895993/U3dMJYzFtBD7XBUPYHqXha/hero_bright-QSjzALkUGuhfjcGumc8Pdz.webp",
-  pa: "https://d2xsxph8kpxj0f.cloudfront.net/310519663520895993/U3dMJYzFtBD7XBUPYHqXha/pa_bright-EhMYwe5AimhTDcXYbYtWhW.webp",
-  lighting: "https://d2xsxph8kpxj0f.cloudfront.net/310519663520895993/U3dMJYzFtBD7XBUPYHqXha/lighting_bright-g3QFWaTrSJfufFCGGaBXke.webp",
-  dj: "https://d2xsxph8kpxj0f.cloudfront.net/310519663520895993/U3dMJYzFtBD7XBUPYHqXha/dj_equipment_bright-DLGckij2Y3YMNJCUNSrTRR.webp",
-  wedding: "https://d2xsxph8kpxj0f.cloudfront.net/310519663520895993/U3dMJYzFtBD7XBUPYHqXha/wedding_bright-jouoFqzzLnxtXfJZtxbHan.webp",
-  entertainment: "https://d2xsxph8kpxj0f.cloudfront.net/310519663520895993/U3dMJYzFtBD7XBUPYHqXha/entertainment_dancers_bright-JVmCMQwNhJL6hz9NTKNcaf.webp",
-  privateFeiern: "https://d2xsxph8kpxj0f.cloudfront.net/310519663520895993/U3dMJYzFtBD7XBUPYHqXha/private_event_bright-Qk2BCBFdLULe4vCm3RLrGU.webp",
+  hero: "https://d2xsxph8kpxj0f.cloudfront.net/310519663520895993/U3dMJYzFtBD7XBUPYHqXha/hero_bright_dea20526.png",
+  pa: "https://d2xsxph8kpxj0f.cloudfront.net/310519663520895993/U3dMJYzFtBD7XBUPYHqXha/pa_bright_38ed0788.png",
+  lighting: "https://d2xsxph8kpxj0f.cloudfront.net/310519663520895993/U3dMJYzFtBD7XBUPYHqXha/lighting_bright_26b909d0.png",
+  dj: "https://d2xsxph8kpxj0f.cloudfront.net/310519663520895993/U3dMJYzFtBD7XBUPYHqXha/dj_equipment_bright_ecb48fc4.png",
+  wedding: "https://d2xsxph8kpxj0f.cloudfront.net/310519663520895993/U3dMJYzFtBD7XBUPYHqXha/wedding_section_718d5910.png",
+  entertainment: "https://d2xsxph8kpxj0f.cloudfront.net/310519663520895993/U3dMJYzFtBD7XBUPYHqXha/entertainment_dancers_bright_0ad51a84.png",
+  privateFeiern: "https://d2xsxph8kpxj0f.cloudfront.net/310519663520895993/U3dMJYzFtBD7XBUPYHqXha/private_event_bright_a1b2c3d4.png",
+  djAbout: "https://d2xsxph8kpxj0f.cloudfront.net/310519663520895993/U3dMJYzFtBD7XBUPYHqXha/dj_about_section_959ad2b7.png",
 };
 
 // Animation variants
 const fadeUp = {
   hidden: { opacity: 0, y: 40 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.7 } },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
 };
 
-const fadeIn = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { duration: 0.8 } },
-};
-
-const stagger = {
-  visible: { transition: { staggerChildren: 0.12 } },
-};
-
-function AnimatedSection({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+const AnimatedSection = ({ children }: { children: React.ReactNode }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
+
   return (
-    <motion.div
-      ref={ref}
-      variants={stagger}
-      initial="hidden"
-      animate={isInView ? "visible" : "hidden"}
-      className={className}
-    >
+    <motion.div ref={ref} initial="hidden" animate={isInView ? "visible" : "hidden"} variants={fadeUp}>
       {children}
     </motion.div>
   );
-}
+};
 
-// ─── NAVBAR ──────────────────────────────────────────────────────────────────
-function Navbar() {
-  const { language, setLanguage } = useLanguage();
-  const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 60);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  const navLinks = [
-    { label: "Leistungen", href: "#leistungen" },
-    { label: "Veranstaltungen", href: "#veranstaltungen" },
-    { label: "Über Uns", href: "#ueber-uns" },
-    { label: "Kontakt", href: "#kontakt" },
-  ];
-
-  const scrollTo = (href: string) => {
-    setMenuOpen(false);
-    const el = document.querySelector(href);
-    if (el) el.scrollIntoView({ behavior: "smooth" });
-  };
+export default function Home() {
+  const { t, language, toggleLanguage } = useLanguage();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <motion.nav
-      initial={{ y: -80, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? "bg-black/95 backdrop-blur-md border-b border-white/10" : "bg-transparent"
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-6 flex items-center justify-between h-16 md:h-20">
-        {/* Logo */}
-        <a href="#" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className="flex items-center gap-3">
-          <img src={IMAGES.logo} alt="Black Giant Sounds Logo" className="h-10 md:h-12 w-auto" />
-        </a>
-
-        {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-8">
-          {navLinks.map((link) => (
-            <button key={link.href} onClick={() => scrollTo(link.href)} className="nav-link">
-              {link.label}
-            </button>
-          ))}
-          <button onClick={() => scrollTo("#kontakt")} className="btn-primary text-xs py-2.5 px-5">
+    <div className="bg-white text-black">
+      {/* ─── NAVBAR ─────────────────────────────────────────────────────────────── */}
+      <nav className="sticky top-0 z-50 bg-white border-b border-black/10">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+          <img src={IMAGES.logo} alt="BLACK GIANT SOUNDS" className="h-10 w-auto" />
+          <div className="hidden md:flex items-center gap-8">
+            <a href="#leistungen" className="text-sm font-medium hover:text-black/60 transition">Leistungen</a>
+            <a href="#veranstaltungen" className="text-sm font-medium hover:text-black/60 transition">Veranstaltungen</a>
+            <a href="#ueber-uns" className="text-sm font-medium hover:text-black/60 transition">Über Uns</a>
+            <a href="#kontakt" className="text-sm font-medium hover:text-black/60 transition">Kontakt</a>
+          </div>
+          <button className="hidden md:block bg-black text-white px-6 py-2 text-sm font-medium hover:bg-black/80 transition">
             Anfrage stellen
           </button>
+          <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="md:hidden">
+            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
         </div>
+      </nav>
 
-        {/* Mobile menu toggle */}
-        <button
-          className="md:hidden text-white p-2"
-          onClick={() => setMenuOpen(!menuOpen)}
-          aria-label="Menü öffnen"
-        >
-          {menuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
-      </div>
-
-      {/* Mobile Menu */}
-      {menuOpen && (
-        <motion.div
-          initial={{ opacity: 0, height: 0 }}
-          animate={{ opacity: 1, height: "auto" }}
-          exit={{ opacity: 0, height: 0 }}
-          className="md:hidden bg-black/98 border-t border-white/10 px-6 py-6 flex flex-col gap-5"
-        >
-          {navLinks.map((link) => (
-            <button key={link.href} onClick={() => scrollTo(link.href)} className="nav-link text-left text-base">
-              {link.label}
+      {/* ─── HERO ──────────────────────────────────────────────────────────────── */}
+      <section className="relative h-screen flex items-center justify-center overflow-hidden">
+        <img src={IMAGES.hero} alt="PA System Hero" className="absolute inset-0 w-full h-full object-cover" />
+        <div className="absolute inset-0 bg-black/30" />
+        <div className="relative z-10 text-center text-white px-6">
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-5xl md:text-7xl font-bold mb-6"
+            style={{ fontFamily: "'Oswald', sans-serif" }}
+          >
+            Wir bringen Ihren Sound zum Leben
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="text-lg md:text-xl mb-8 max-w-2xl mx-auto"
+            style={{ fontFamily: "'Barlow', sans-serif" }}
+          >
+            Professionelle PA-Vermietung, Lichtanlage & DJ Services für Festivals, Hochzeiten und private Events
+          </motion.p>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="flex gap-4 justify-center"
+          >
+            <button className="bg-white text-black px-8 py-3 font-semibold hover:bg-black/10 transition">
+              Unsere Leistungen
             </button>
-          ))}
-          <button onClick={() => scrollTo("#kontakt")} className="btn-primary mt-2 justify-center">
-            Anfrage stellen
-          </button>
-        </motion.div>
-      )}
-    </motion.nav>
-  );
-}
-
-// ─── HERO ─────────────────────────────────────────────────────────────────────
-function Hero() {
-  const ref = useRef(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
-  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
-
-  return (
-    <section ref={ref} className="relative h-screen min-h-[600px] flex items-center justify-center overflow-hidden">
-      {/* Parallax BG */}
-      <motion.div className="absolute inset-0 z-0" style={{ y }}>
-        <img
-          src={IMAGES.hero}
-          alt="Festival Stage"
-          className="w-full h-full object-cover object-center"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/30 to-black/90" />
-      </motion.div>
-
-      {/* Ghost text */}
-      <div className="absolute inset-0 flex items-center justify-center overflow-hidden z-0 pointer-events-none">
-        <span className="ghost-text opacity-30">SOUND</span>
-      </div>
-
-      {/* Content */}
-      <motion.div
-        style={{ opacity }}
-        className="relative z-10 text-center px-6 max-w-5xl mx-auto"
-      >
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.6 }}
-          className="section-label mb-6"
-        >
-          Wuppertal · Deutschland · Österreich · Schweiz
-        </motion.div>
-
-        <motion.h1
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5, duration: 0.8 }}
-          className="text-white leading-none mb-6"
-          style={{
-            fontFamily: "'Oswald', sans-serif",
-            fontWeight: 700,
-            fontSize: "clamp(3rem, 9vw, 8rem)",
-            textTransform: "uppercase",
-            letterSpacing: "-0.01em",
-          }}
-        >
-          Wir bringen
-          <br />
-          <span style={{ WebkitTextStroke: "2px white", color: "transparent" }}>
-            Ihren Sound
-          </span>
-          <br />
-          zum Leben
-        </motion.h1>
-
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8, duration: 0.7 }}
-          className="text-white/70 text-lg md:text-xl max-w-2xl mx-auto mb-10"
-          style={{ fontFamily: "'Barlow', sans-serif", fontWeight: 300 }}
-        >
-          Professionelle PA-Vermietung, Lichtanlage Vermietung, DJ Equipment & Entertainment
-          für Festivals, Hochzeiten und private Events in Wuppertal, Deutschland, Österreich & Schweiz.
-        </motion.p>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.0, duration: 0.6 }}
-          className="flex flex-col sm:flex-row gap-4 justify-center"
-        >
-          <button
-            onClick={() => document.querySelector("#leistungen")?.scrollIntoView({ behavior: "smooth" })}
-            className="btn-primary"
-          >
-            Unsere Leistungen <ArrowRight size={16} />
-          </button>
-          <button
-            onClick={() => document.querySelector("#kontakt")?.scrollIntoView({ behavior: "smooth" })}
-            className="btn-outline"
-          >
-            Jetzt anfragen
-          </button>
-        </motion.div>
-      </motion.div>
-
-      {/* Scroll indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.5, duration: 0.8 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2"
-      >
-        <span className="section-label">Scrollen</span>
-        <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
-        >
-          <ChevronDown size={20} className="text-white/50" />
-        </motion.div>
-      </motion.div>
-    </section>
-  );
-}
-
-// ─── STATS BAR ────────────────────────────────────────────────────────────────
-function StatsBar() {
-  const stats = [
-    { value: "500+", label: "Events realisiert" },
-    { value: "10+", label: "Jahre Erfahrung" },
-    { value: "3", label: "Länder" },
-    { value: "100%", label: "Kundenzufriedenheit" },
-  ];
-
-  return (
-    <section className="bg-white py-10 md:py-12">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-4">
-          {stats.map((stat, i) => (
-            <AnimatedSection key={i} className="text-center">
-              <motion.div variants={fadeUp}>
-                <div
-                  className="text-black leading-none mb-1"
-                  style={{
-                    fontFamily: "'Oswald', sans-serif",
-                    fontWeight: 700,
-                    fontSize: "clamp(2rem, 5vw, 3.5rem)",
-                  }}
-                >
-                  {stat.value}
-                </div>
-                <div
-                  className="text-black/50 text-xs tracking-widest uppercase"
-                  style={{ fontFamily: "'Barlow', sans-serif" }}
-                >
-                  {stat.label}
-                </div>
-              </motion.div>
-            </AnimatedSection>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-// ─── SERVICES ─────────────────────────────────────────────────────────────────
-function Services() {
-  const services = [
-    {
-      id: "01",
-      icon: <Volume2 size={28} />,
-      title: "PA-Systeme Vermietung",
-      subtitle: "Professionelle Soundanlage mieten",
-      description:
-        "PA Vermietung Wuppertal: Von kleinen Privatfeiern bis hin zu großen Festivals — wir liefern und betreiben professionelle PA-Systeme & Soundanlagen der neuesten Generation. Line-Array-Systeme, Subwoofer, Monitore und vollständige Signalketten für kristallklaren Sound",
-      image: IMAGES.pa,
-      features: ["Line-Array-Systeme", "Subwoofer & Monitore", "Digitale Mischpulte", "Technischer Support vor Ort"],
-    },
-    {
-      id: "02",
-      icon: <Lightbulb size={28} />,
-      title: "Lichtanlage Vermietung",
-      subtitle: "Event Technik Vermietung",
-      description:
-        "Lichtanlage mieten: Unsere professionellen Lichtanlagen verwandeln jeden Raum in ein Erlebnis. Moving Heads, Beam-Lights, LED-Wände, Hazer und Uplighting — wir erschaffen die perfekte Atmosphäre für Ihr Event in Deutschland, Österreich & der Schweiz",
-      image: IMAGES.lighting,
-      features: ["Moving Head Spots", "Beam & Wash Lights", "LED-Wände & Strips", "Hazer & Nebelmaschinen"],
-    },
-    {
-      id: "03",
-      icon: <Music size={28} />,
-      title: "DJ Equipment Vermietung",
-      subtitle: "DJ-Service & Hochzeit DJ",
-      description:
-        "DJ Vermietung Wuppertal: Unsere erfahrenen DJs lesen die Stimmung und sorgen für eine unvergessliche Tanzfläche. Hochzeit DJ, Festival DJs, Private Event DJ — wir haben den richtigen Sound für Ihren Anlass",
-      image: IMAGES.dj,
-      features: ["Hochzeits-DJs", "Festival & Club-DJs", "Moderations-Service", "Komplette Musikplanung"],
-    },
-    {
-      id: "04",
-      icon: <Users size={28} />,
-       title: "Entertainment Services",
-      subtitle: "Tänzer, Show-Acts & Entertainment",
-      description:
-        "Entertainment Vermietung: Für besondere Momente bieten wir professionelle Tänzer und Show-Acts an. Von eleganten Showdance-Performances bis hin zu energiegeladenen Tanzshows — wir bringen Ihre Veranstaltung auf ein neues Level",
-      image: IMAGES.entertainment,
-      features: ["Professionelle Tänzer", "Showdance & Choreografie", "Thematische Performances", "Komplettpaket buchbar"],
-    },
-  ];
-
-  return (
-    <section id="leistungen" className="py-24 md:py-32 bg-white relative overflow-hidden">
-      {/* Ghost text */}
-      <div className="absolute top-12 left-0 right-0 overflow-hidden pointer-events-none">
-        <div className="ghost-text text-center text-black/10">SERVICES</div>
-      </div>
-
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <AnimatedSection>
-          <motion.div variants={fadeUp} className="mb-16 md:mb-20">
-            <span className="section-label">Was wir bieten</span>
-            <div className="hr-accent my-4" />
-            <h2
-              className="text-black"
-              style={{
-                fontFamily: "'Oswald', sans-serif",
-                fontWeight: 700,
-                fontSize: "clamp(2.5rem, 6vw, 5rem)",
-                lineHeight: 1.05,
-              }}
-            >
-              Unsere
-              <br />
-              Leistungen
-            </h2>
+            <button className="border-2 border-white text-white px-8 py-3 font-semibold hover:bg-white/10 transition">
+              Jetzt anfragen
+            </button>
           </motion.div>
-        </AnimatedSection>
-
-        <div className="space-y-8 md:space-y-6">
-          {services.map((service, i) => (
-            <ServiceCard key={service.id} service={service} reverse={i % 2 !== 0} />
-          ))}
         </div>
-      </div>
-    </section>
+        <motion.div
+          animate={{ y: [0, 10, 0] }}
+          transition={{ duration: 2, repeat: Infinity }}
+          className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10"
+        >
+          <ChevronDown size={32} className="text-white" />
+        </motion.div>
+      </section>
+
+      {/* ─── SERVICES ──────────────────────────────────────────────────────────── */}
+      <section id="leistungen" className="py-24 md:py-32 bg-white">
+        <div className="max-w-7xl mx-auto px-6">
+          <AnimatedSection>
+            <div className="mb-20">
+              <h2 className="text-5xl md:text-6xl font-bold mb-4" style={{ fontFamily: "'Oswald', sans-serif" }}>
+                Unsere Leistungen
+              </h2>
+              <div className="w-16 h-1 bg-black" />
+            </div>
+          </AnimatedSection>
+
+          <div className="space-y-16">
+            {/* PA Systems */}
+            <ServiceRow
+              image={IMAGES.pa}
+              title="PA-Systeme Vermietung"
+              subtitle="Professionelle Soundanlage"
+              description="Hochwertige PA-Systeme für jeden Veranstaltungstyp. Von kompakten Anlagen für intime Events bis zu großflächigen Festival-Setups."
+              features={["Professionelle Soundqualität", "Flexible Konfigurationen", "Technischer Support", "Lieferung & Aufbau"]}
+              reverse={false}
+            />
+
+            {/* Lighting */}
+            <ServiceRow
+              image={IMAGES.lighting}
+              title="Lichtanlage Vermietung"
+              subtitle="Professionelle Beleuchtung"
+              description="Moderne LED- und Bühnenlichtanlagen für atmosphärische Beleuchtung. Komplette Lichtkonzepte für Ihre Veranstaltung."
+              features={["LED & Bühnenlicht", "Lichtprogrammierung", "Atmosphäre & Effekte", "Professionelle Installation"]}
+              reverse={true}
+            />
+
+            {/* DJ Equipment */}
+            <ServiceRow
+              image={IMAGES.dj}
+              title="DJ Equipment Vermietung"
+              subtitle="Professionelle DJ-Ausrüstung"
+              description="Hochwertige DJ-Ausrüstung und Turntables für professionelle DJs. Komplette Setups für Clubs, Bars und Events."
+              features={["Turntables & Mixer", "Professionelle Qualität", "Flexible Ausstattung", "Technischer Support"]}
+              reverse={false}
+            />
+
+            {/* Entertainment */}
+            <ServiceRow
+              image={IMAGES.entertainment}
+              title="Entertainment Services"
+              subtitle="Professionelle Unterhaltung"
+              description="Komplette Entertainment-Pakete mit DJ, Lighting und professionellen Tänzern. Maßgeschneidert für Ihre Veranstaltung."
+              features={["DJ Services", "Professionelle Tänzer", "Showdance & Choreografie", "Komplettpaket buchbar"]}
+              reverse={true}
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* ─── EVENTS ────────────────────────────────────────────────────────────── */}
+      <section id="veranstaltungen" className="py-24 md:py-32 bg-black/5">
+        <div className="max-w-7xl mx-auto px-6">
+          <AnimatedSection>
+            <div className="mb-20">
+              <h2 className="text-5xl md:text-6xl font-bold mb-4" style={{ fontFamily: "'Oswald', sans-serif" }}>
+                Veranstaltungsarten
+              </h2>
+              <div className="w-16 h-1 bg-black" />
+            </div>
+          </AnimatedSection>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <EventCard
+              icon={<Zap size={40} />}
+              title="Festivals"
+              description="Wir sind erfahren in der Ausstattung und dem Betrieb von Outdoor- und Indoor-Festivals jeder Größe."
+              image={IMAGES.hero}
+            />
+            <EventCard
+              icon={<Star size={40} />}
+              title="Hochzeiten"
+              description="Ihr besonderer Tag verdient den perfekten Sound. Wir sorgen für eine unvergessliche Atmosphäre."
+              image={IMAGES.wedding}
+            />
+            <EventCard
+              icon={<Mic2 size={40} />}
+              title="Private Feiern"
+              description="Geburtstage, Firmenevents, Jubiläen — wir bringen professionelle Veranstaltungstechnik zu Ihnen."
+              image={IMAGES.privateFeiern}
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* ─── ABOUT ─────────────────────────────────────────────────────────────── */}
+      <section id="ueber-uns" className="py-24 md:py-32 bg-white">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+            <motion.div
+              initial={{ opacity: 0, x: -60 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+            >
+              <img src={IMAGES.djAbout} alt="DJ Performance" className="w-full h-auto rounded-lg" />
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, x: 60 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+            >
+              <h2 className="text-5xl md:text-6xl font-bold mb-6" style={{ fontFamily: "'Oswald', sans-serif" }}>
+                Leidenschaft für den perfekten Sound
+              </h2>
+              <p className="text-lg text-black/70 mb-4 leading-relaxed" style={{ fontFamily: "'Barlow', sans-serif" }}>
+                BLACK GIANT SOUNDS ist Ihr professioneller Partner für Veranstaltungstechnik und Entertainment im deutschsprachigen Raum. Mit Sitz in Wuppertal betreuen wir Events in Deutschland, Österreich und der Schweiz.
+              </p>
+              <p className="text-lg text-black/70 mb-6 leading-relaxed" style={{ fontFamily: "'Barlow', sans-serif" }}>
+                Unser Team vereint jahrelange Erfahrung in der Veranstaltungstechnik mit echter Leidenschaft für Musik und Performance. Wir verstehen, dass jedes Event einzigartig ist — deshalb entwickeln wir für jeden Kunden maßgeschneiderte Lösungen.
+              </p>
+              <div className="flex gap-4">
+                <div className="border-l-4 border-black pl-4">
+                  <div className="text-sm font-semibold text-black/60">Standort</div>
+                  <div className="text-xl font-bold">Wuppertal, Deutschland</div>
+                </div>
+                <div className="border-l-4 border-black pl-4">
+                  <div className="text-sm font-semibold text-black/60">Einsatzgebiet</div>
+                  <div className="text-xl font-bold">D · A · CH</div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── CONTACT ───────────────────────────────────────────────────────────── */}
+      <section id="kontakt" className="py-24 md:py-32 bg-black/5">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
+            <div>
+              <h2 className="text-5xl md:text-6xl font-bold mb-8" style={{ fontFamily: "'Oswald', sans-serif" }}>
+                Kontaktieren Sie uns
+              </h2>
+              <div className="space-y-6">
+                <div className="flex gap-4">
+                  <Mail size={24} className="flex-shrink-0" />
+                  <div>
+                    <div className="font-semibold mb-1">E-Mail</div>
+                    <a href="mailto:stickupmarketing@gmail.com" className="text-black/70 hover:text-black transition">
+                      stickupmarketing@gmail.com
+                    </a>
+                  </div>
+                </div>
+                <div className="flex gap-4">
+                  <MapPin size={24} className="flex-shrink-0" />
+                  <div>
+                    <div className="font-semibold mb-1">Standort</div>
+                    <span className="text-black/70">Wuppertal, Deutschland</span>
+                  </div>
+                </div>
+                <div className="flex gap-4">
+                  <Zap size={24} className="flex-shrink-0" />
+                  <div>
+                    <div className="font-semibold mb-1">Einsatzgebiet</div>
+                    <span className="text-black/70">Deutschland · Österreich · Schweiz</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <ContactForm />
+          </div>
+        </div>
+      </section>
+
+      {/* ─── FOOTER ────────────────────────────────────────────────────────────── */}
+      <footer className="bg-black text-white py-12">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-8">
+            <div>
+              <img src={IMAGES.logo} alt="BLACK GIANT SOUNDS" className="h-10 w-auto mb-4 invert" />
+              <p className="text-white/60 text-sm">
+                Professionelle PA-Systeme, Lichtanlagen und Entertainment für unvergessliche Events.
+              </p>
+            </div>
+            <div>
+              <h4 className="font-bold mb-4">Navigation</h4>
+              <ul className="space-y-2 text-sm text-white/60">
+                <li><a href="#leistungen" className="hover:text-white transition">Leistungen</a></li>
+                <li><a href="#veranstaltungen" className="hover:text-white transition">Veranstaltungen</a></li>
+                <li><a href="#ueber-uns" className="hover:text-white transition">Über Uns</a></li>
+                <li><a href="#kontakt" className="hover:text-white transition">Kontakt</a></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-bold mb-4">Kontakt</h4>
+              <div className="text-sm text-white/60 space-y-2">
+                <div>Wuppertal, Deutschland</div>
+                <a href="mailto:stickupmarketing@gmail.com" className="hover:text-white transition block">
+                  stickupmarketing@gmail.com
+                </a>
+              </div>
+            </div>
+          </div>
+          <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-white/40">
+            <div>© {new Date().getFullYear()} BLACK GIANT SOUNDS. Alle Rechte vorbehalten.</div>
+            <div className="flex items-center gap-2">
+              <span>Language:</span>
+              <button onClick={toggleLanguage} className="font-semibold hover:text-white transition">
+                {language === 'de' ? 'EN' : 'DE'}
+              </button>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
   );
 }
 
-function ServiceCard({ service, reverse }: { service: any; reverse: boolean }) {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-60px" });
-
+// ─── SERVICE ROW COMPONENT ──────────────────────────────────────────────────────
+function ServiceRow({ image, title, subtitle, description, features, reverse }: any) {
   return (
     <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 50 }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-      transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
-      className={`flex flex-col ${reverse ? "md:flex-row-reverse" : "md:flex-row"} gap-0 service-card`}
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8 }}
+      viewport={{ once: true }}
+      className={`grid grid-cols-1 md:grid-cols-2 gap-12 items-center ${reverse ? 'md:flex-row-reverse' : ''}`}
     >
-      {/* Image */}
-      <div className="md:w-1/2 relative overflow-hidden" style={{ minHeight: "320px" }}>
-        <img
-          src={service.image}
-          alt={service.title}
-          className="card-img w-full h-full object-cover absolute inset-0"
-          style={{ minHeight: "320px" }}
-        />
-        <div className="card-overlay absolute inset-0 bg-black" />
-        {/* Service number */}
-        <div
-          className="absolute top-6 left-6 text-white/20 select-none"
-          style={{
-            fontFamily: "'Oswald', sans-serif",
-            fontWeight: 700,
-            fontSize: "5rem",
-            lineHeight: 1,
-          }}
-        >
-          {service.id}
-        </div>
+      <div className={reverse ? 'md:order-2' : ''}>
+        <img src={image} alt={title} className="w-full h-auto rounded-lg" />
       </div>
-
-      {/* Content */}
-      <div className="md:w-1/2 p-8 md:p-12 flex flex-col justify-center">
-        <div className="flex items-center gap-3 mb-4 text-black/50">
-          {service.icon}
-          <span className="section-label text-black/70">{service.subtitle}</span>
-        </div>
-        <h3
-          className="text-black mb-4"
-          style={{
-            fontFamily: "'Oswald', sans-serif",
-            fontWeight: 700,
-            fontSize: "clamp(1.8rem, 3.5vw, 2.8rem)",
-            lineHeight: 1.1,
-          }}
-        >
-          {service.title}
+      <div className={reverse ? 'md:order-1' : ''}>
+        <div className="text-sm font-semibold text-black/60 mb-2">{subtitle}</div>
+        <h3 className="text-4xl font-bold mb-4" style={{ fontFamily: "'Oswald', sans-serif" }}>
+          {title}
         </h3>
-        <p className="text-black/70 mb-6 leading-relaxed" style={{ fontFamily: "'Barlow', sans-serif", fontWeight: 300 }}>
-          {service.description}
+        <p className="text-lg text-black/70 mb-6 leading-relaxed" style={{ fontFamily: "'Barlow', sans-serif" }}>
+          {description}
         </p>
-        <ul className="space-y-2">
-          {service.features.map((f: string) => (
-            <li key={f} className="flex items-center gap-3 text-black/60 text-sm" style={{ fontFamily: "'Barlow', sans-serif" }}>
-              <span className="w-1 h-1 bg-black rounded-full flex-shrink-0" />
+        <ul className="space-y-3">
+          {features.map((f: string) => (
+            <li key={f} className="flex items-center gap-3 text-black/70">
+              <div className="w-2 h-2 bg-black rounded-full" />
               {f}
             </li>
           ))}
@@ -443,314 +364,32 @@ function ServiceCard({ service, reverse }: { service: any; reverse: boolean }) {
   );
 }
 
-// ─── EVENTS ───────────────────────────────────────────────────────────────────
-function Events() {
-  const eventTypes = [
-    {
-      icon: <Zap size={32} />,
-      title: "Festivals",
-      description:
-        "Wir sind erfahren in der Ausstattung und dem Betrieb von Outdoor- und Indoor-Festivals jeder Größe. Vom kleinen Stadtfest bis zum mehrtägigen Musikfestival.",
-      image: IMAGES.hero,
-    },
-    {
-      icon: <Star size={32} />,
-      title: "Hochzeiten",
-      description:
-        "Ihr besonderer Tag verdient den perfekten Sound. Wir sorgen für eine unvergessliche Atmosphäre — vom Standesamt bis zur Tanzfläche.",
-      image: IMAGES.wedding,
-    },
-    {
-      icon: <Mic2 size={32} />,
-      title: "Private Feiern",
-      description:
-        "Geburtstage, Firmenevents, Jubiläen — wir bringen professionelle Veranstaltungstechnik zu Ihnen nach Hause oder in Ihre Eventlocation.",
-      image: IMAGES.privateFeiern,
-    },
-  ];
-
-  return (
-    <section id="veranstaltungen" className="py-24 md:py-32 bg-white relative overflow-hidden">
-      <div className="absolute top-0 left-0 right-0 overflow-hidden pointer-events-none">
-        <div className="ghost-text text-black/10">EVENTS</div>
-      </div>
-
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <AnimatedSection>
-          <motion.div variants={fadeUp} className="mb-16 md:mb-20">
-            <span className="section-label">Für jeden Anlass</span>
-            <div className="hr-accent my-4" />
-            <h2
-              className="text-black"
-              style={{
-                fontFamily: "'Oswald', sans-serif",
-                fontWeight: 700,
-                fontSize: "clamp(2.5rem, 6vw, 5rem)",
-                lineHeight: 1.05,
-              }}
-            >
-              Veranstaltungs-
-              <br />
-              arten
-            </h2>
-          </motion.div>
-        </AnimatedSection>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {eventTypes.map((event, i) => (
-            <EventCard key={i} event={event} index={i} />
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function EventCard({ event, index }: { event: any; index: number }) {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-60px" });
-
+// ─── EVENT CARD COMPONENT ───────────────────────────────────────────────────────
+function EventCard({ icon, title, description, image }: any) {
   return (
     <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 60 }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 60 }}
-      transition={{ duration: 0.7, delay: index * 0.15 }}
-      className="service-card group"
-    >
-      <div className="relative overflow-hidden" style={{ height: "240px" }}>
-        <img
-          src={event.image}
-          alt={event.title}
-          className="card-img w-full h-full object-cover"
-        />
-        <div className="card-overlay absolute inset-0 bg-black" />
-        <div className="absolute inset-0 flex items-end p-6">
-          <div className="text-black/30 group-hover:text-black/60 transition-colors duration-300">
-            {event.icon}
-          </div>
-        </div>
-      </div>
-      <div className="p-6 md:p-8">
-        <h3
-          className="text-black mb-3"
-          style={{
-            fontFamily: "'Oswald', sans-serif",
-            fontWeight: 600,
-            fontSize: "1.6rem",
-            letterSpacing: "0.02em",
-          }}
-        >
-          {event.title}
-        </h3>
-        <p className="text-black/55 text-sm leading-relaxed" style={{ fontFamily: "'Barlow', sans-serif", fontWeight: 300 }}>
-          {event.description}
-        </p>
-      </div>
-    </motion.div>
-  );
-}
-
-// ─── ABOUT ────────────────────────────────────────────────────────────────────
-function About() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-80px" });
-
-  return (
-    <section id="ueber-uns" className="py-24 md:py-32 bg-white relative overflow-hidden">
-      <div className="absolute top-0 left-0 right-0 overflow-hidden pointer-events-none">
-        <div className="ghost-text" style={{ color: "transparent", WebkitTextStroke: "1px rgba(0,0,0,0.05)" }}>
-          ABOUT
-        </div>
-      </div>
-
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20 items-center">
-          {/* Image side */}
-          <motion.div
-            ref={ref}
-            initial={{ opacity: 0, x: -60 }}
-            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -60 }}
-            transition={{ duration: 0.8 }}
-            className="relative"
-          >
-            <div className="relative overflow-hidden" style={{ aspectRatio: "4/5" }}>
-              <img
-                src="https://d2xsxph8kpxj0f.cloudfront.net/310519663520895993/U3dMJYzFtBD7XBUPYHqXha/dj_about_section_959ad2b7.png"
-                alt="DJ Performance - Leidenschaft für den perfekten Sound"
-                className="w-full h-full object-cover"
-              />
-            </div>
-            {/* Offset accent box */}
-            <div
-              className="absolute -bottom-6 -right-6 w-32 h-32 bg-black flex items-center justify-center"
-              style={{ zIndex: 2 }}
-            >
-              <div className="text-center">
-                <div
-                  className="text-white leading-none"
-                  style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, fontSize: "2.5rem" }}
-                >
-                  10+
-                </div>
-                <div className="text-white/60 text-xs tracking-widest uppercase mt-1" style={{ fontFamily: "'Barlow', sans-serif" }}>
-                  Jahre
-                </div>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Text side */}
-          <motion.div
-            initial={{ opacity: 0, x: 60 }}
-            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 60 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
-            <span className="section-label text-black/40">Wer wir sind</span>
-            <div className="w-12 h-0.5 bg-black my-4" />
-            <h2
-              className="text-black mb-6"
-              style={{
-                fontFamily: "'Oswald', sans-serif",
-                fontWeight: 700,
-                fontSize: "clamp(2.2rem, 5vw, 4rem)",
-                lineHeight: 1.05,
-              }}
-            >
-              Leidenschaft
-              <br />
-              für den perfekten
-              <br />
-              Sound
-            </h2>
-            <div className="space-y-4 text-black/65 leading-relaxed" style={{ fontFamily: "'Barlow', sans-serif", fontWeight: 300 }}>
-              <p>
-                BLACK GIANT SOUNDS ist Ihr professioneller Partner für Veranstaltungstechnik und Entertainment im deutschsprachigen Raum. Mit Sitz in Wuppertal betreuen wir Events in Deutschland, Österreich und der Schweiz.
-              </p>
-              <p>
-                Unser Team vereint jahrelange Erfahrung in der Veranstaltungstechnik mit echter Leidenschaft für Musik und Performance. Wir verstehen, dass jedes Event einzigartig ist — deshalb entwickeln wir für jeden Kunden maßgeschneiderte Lösungen.
-              </p>
-              <p>
-                Von der ersten Beratung bis zum letzten Beat nach Ihrem Event — wir sind für Sie da.
-              </p>
-            </div>
-            <div className="mt-8 flex flex-wrap gap-4">
-              <div className="border border-black/20 px-5 py-3">
-                <div className="text-black text-xs tracking-widest uppercase" style={{ fontFamily: "'Barlow', sans-serif" }}>
-                  Standort
-                </div>
-                <div className="text-black font-semibold mt-1" style={{ fontFamily: "'Oswald', sans-serif" }}>
-                  Wuppertal, Deutschland
-                </div>
-              </div>
-              <div className="border border-black/20 px-5 py-3">
-                <div className="text-black text-xs tracking-widest uppercase" style={{ fontFamily: "'Barlow', sans-serif" }}>
-                  Einsatzgebiet
-                </div>
-                <div className="text-black font-semibold mt-1" style={{ fontFamily: "'Oswald', sans-serif" }}>
-                  DE · AT · CH
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-// ─── TESTIMONIALS ─────────────────────────────────────────────────────────────
-function Testimonials() {
-  const testimonials = [
-    {
-      quote: "BLACK GIANT SOUNDS hat unsere Hochzeit zu einem unvergesslichen Erlebnis gemacht. Der Sound war perfekt, die Lichtstimmung traumhaft.",
-      author: "Sarah & Markus K.",
-      event: "Hochzeit, Düsseldorf",
-    },
-    {
-      quote: "Für unser Stadtfest haben wir zum dritten Mal mit BGS zusammengearbeitet. Professionell, zuverlässig und immer mit einem Lächeln.",
-      author: "Thomas B.",
-      event: "Stadtfest Wuppertal",
-    },
-    {
-      quote: "Die DJ-Performance und die Lichtshow haben unsere Firmenfeier auf ein ganz neues Level gebracht. Absolut empfehlenswert!",
-      author: "Christine M.",
-      event: "Firmenevent, Köln",
-    },
-  ];
-
-  return (
-    <section className="py-24 md:py-32 bg-[#0a0a0a] relative overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6">
-        <AnimatedSection>
-          <motion.div variants={fadeUp} className="mb-16 text-center">
-            <span className="section-label">Was unsere Kunden sagen</span>
-            <div className="hr-accent mx-auto my-4" />
-            <h2
-              className="text-white"
-              style={{
-                fontFamily: "'Oswald', sans-serif",
-                fontWeight: 700,
-                fontSize: "clamp(2rem, 5vw, 4rem)",
-              }}
-            >
-              Stimmen unserer Kunden
-            </h2>
-          </motion.div>
-        </AnimatedSection>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {testimonials.map((t, i) => (
-            <TestimonialCard key={i} testimonial={t} index={i} />
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function TestimonialCard({ testimonial, index }: { testimonial: any; index: number }) {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-60px" });
-
-  return (
-    <motion.div
-      ref={ref}
       initial={{ opacity: 0, y: 40 }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
-      transition={{ duration: 0.6, delay: index * 0.12 }}
-      className="border border-white/10 p-8 relative"
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8 }}
+      viewport={{ once: true }}
+      className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition"
     >
-      <div
-        className="text-white/10 absolute top-4 left-6 select-none"
-        style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, fontSize: "6rem", lineHeight: 1 }}
-      >
-        "
-      </div>
-      <div className="relative z-10">
-        <div className="flex gap-1 mb-4">
-          {[...Array(5)].map((_, i) => (
-            <Star key={i} size={14} className="text-white fill-white" />
-          ))}
-        </div>
-        <p className="text-white/70 text-sm leading-relaxed mb-6 italic" style={{ fontFamily: "'Barlow', sans-serif", fontWeight: 300 }}>
-          "{testimonial.quote}"
+      <img src={image} alt={title} className="w-full h-48 object-cover" />
+      <div className="p-6">
+        <div className="text-black/60 mb-3">{icon}</div>
+        <h3 className="text-2xl font-bold mb-3" style={{ fontFamily: "'Oswald', sans-serif" }}>
+          {title}
+        </h3>
+        <p className="text-black/70" style={{ fontFamily: "'Barlow', sans-serif" }}>
+          {description}
         </p>
-        <div>
-          <div className="text-white font-semibold text-sm" style={{ fontFamily: "'Oswald', sans-serif", letterSpacing: "0.05em" }}>
-            {testimonial.author}
-          </div>
-          <div className="text-white/40 text-xs mt-1" style={{ fontFamily: "'Barlow', sans-serif" }}>
-            {testimonial.event}
-          </div>
-        </div>
       </div>
     </motion.div>
   );
 }
 
-// ─── CONTACT ──────────────────────────────────────────────────────────────────
-function Contact() {
+// ─── CONTACT FORM COMPONENT ─────────────────────────────────────────────────────
+function ContactForm() {
   const { t } = useLanguage();
   const [formData, setFormData] = useState({
     name: "",
@@ -778,20 +417,17 @@ function Contact() {
       const response = await fetch("/api/trpc/contact.submit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          json: formData,
-        }),
+        body: JSON.stringify({ json: formData }),
         credentials: "include",
       });
 
-      if (!response.ok) {
-        throw new Error("Failed to submit form");
-      }
+      if (!response.ok) throw new Error("Failed to submit form");
 
       const result = await response.json();
       if (result.result?.data?.success) {
         setSubmitted(true);
         setFormData({ name: "", email: "", phone: "", eventType: "", date: "", message: "" });
+        setTimeout(() => setSubmitted(false), 5000);
       } else {
         setError("Failed to submit. Please try again.");
       }
@@ -803,325 +439,68 @@ function Contact() {
     }
   };
 
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-80px" });
-
   return (
-    <section id="kontakt" className="py-24 md:py-32 bg-white relative overflow-hidden">
-      <div className="absolute top-0 left-0 right-0 overflow-hidden pointer-events-none">
-        <div className="ghost-text text-black/10">KONTAKT</div>
-      </div>
-
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20">
-          {/* Left: Info */}
-          <motion.div
-            ref={ref}
-            initial={{ opacity: 0, x: -50 }}
-            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
-            transition={{ duration: 0.8 }}
-          >
-            <span className="section-label">{t("contact.label")}</span>
-            <div className="hr-accent my-4" />
-            <h2
-              className="text-black mb-6"
-              style={{
-                fontFamily: "'Oswald', sans-serif",
-                fontWeight: 700,
-                fontSize: "clamp(2.2rem, 5vw, 4rem)",
-                lineHeight: 1.05,
-              }}
-            >
-              {t("contact.title")}
-            </h2>
-            <p className="text-black/60 mb-10 leading-relaxed" style={{ fontFamily: "'Barlow', sans-serif", fontWeight: 300 }}>
-              {t("contact.subtitle")}
-            </p>
-
-            <div className="space-y-5">
-              <div className="flex items-start gap-4">
-                <div className="w-10 h-10 border border-black/20 flex items-center justify-center flex-shrink-0">
-                  <Mail size={16} className="text-black/60" />
-                </div>
-                <div>
-                  <div className="section-label mb-1 text-black/70">{t("contact.email.label")}</div>
-                  <a href="mailto:stickupmarketing@gmail.com" className="text-black hover:text-black/70 transition-colors" style={{ fontFamily: "'Barlow', sans-serif" }}>
-                    stickupmarketing@gmail.com
-                  </a>
-                </div>
-              </div>
-              <div className="flex items-start gap-4">
-                <div className="w-10 h-10 border border-black/20 flex items-center justify-center flex-shrink-0">
-                  <MapPin size={16} className="text-black/60" />
-                </div>
-                <div>
-                  <div className="section-label mb-1 text-black/70">{t("contact.location.label")}</div>
-                  <span className="text-black" style={{ fontFamily: "'Barlow', sans-serif" }}>
-                    Wuppertal, Deutschland
-                  </span>
-                </div>
-              </div>
-              <div className="flex items-start gap-4">
-                <div className="w-10 h-10 border border-black/20 flex items-center justify-center flex-shrink-0">
-                  <Zap size={16} className="text-black/60" />
-                </div>
-                <div>
-                  <div className="section-label mb-1 text-black/70">{t("contact.region.label")}</div>
-                  <span className="text-black" style={{ fontFamily: "'Barlow', sans-serif" }}>
-                    Deutschland · Österreich · Schweiz
-                  </span>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Right: Form */}
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 50 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
-            {submitted ? (
-              <div className="border border-black/20 p-10 text-center">
-                <div className="text-black/30 mb-4">
-                  <Star size={40} className="mx-auto" />
-                </div>
-                <h3 className="text-black text-2xl mb-3" style={{ fontFamily: "'Oswald', sans-serif" }}>
-                  {t("contact.success.title")}
-                </h3>
-                <p className="text-black/60" style={{ fontFamily: "'Barlow', sans-serif", fontWeight: 300 }}>
-                  {t("contact.success.message")}
-                </p>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="section-label block mb-2 text-black/70">{t("contact.form.name")}</label>
-                    <input
-                      type="text"
-                      name="name"
-                      required
-                      value={formData.name}
-                      onChange={handleChange}
-                      placeholder={t("contact.form.name.placeholder")}
-                      className="w-full bg-black/5 border border-black/15 text-black placeholder-black/25 px-4 py-3 text-sm focus:outline-none focus:border-black/50 transition-colors"
-                      style={{ fontFamily: "'Barlow', sans-serif" }}
-                    />
-                  </div>
-                  <div>
-                    <label className="section-label block mb-2 text-black/70">{t("contact.form.email")}</label>
-                    <input
-                      type="email"
-                      name="email"
-                      required
-                      value={formData.email}
-                      onChange={handleChange}
-                      placeholder={t("contact.form.email.placeholder")}
-                      className="w-full bg-black/5 border border-black/15 text-black placeholder-black/25 px-4 py-3 text-sm focus:outline-none focus:border-black/50 transition-colors"
-                      style={{ fontFamily: "'Barlow', sans-serif" }}
-                    />
-                  </div>
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="section-label block mb-2 text-black/70">{t("contact.form.phone")}</label>
-                    <input
-                      type="tel"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      placeholder={t("contact.form.phone.placeholder")}
-                      className="w-full bg-black/5 border border-black/15 text-black placeholder-black/25 px-4 py-3 text-sm focus:outline-none focus:border-black/50 transition-colors"
-                      style={{ fontFamily: "'Barlow', sans-serif" }}
-                    />
-                  </div>
-                  <div>
-                    <label className="section-label block mb-2 text-black/70">{t("contact.form.eventtype")}</label>
-                    <select
-                      name="eventType"
-                      required
-                      value={formData.eventType}
-                      onChange={handleChange}
-                      className="w-full bg-white border border-black/15 text-black px-4 py-3 text-sm focus:outline-none focus:border-black/50 transition-colors appearance-none"
-                      style={{ fontFamily: "'Barlow', sans-serif" }}
-                    >
-                      <option value="" disabled>{t("contact.form.eventtype.select")}</option>
-                      <option value="Festival">{t("contact.form.eventtype.festival")}</option>
-                      <option value="Hochzeit">{t("contact.form.eventtype.wedding")}</option>
-                      <option value="Private Feier">{t("contact.form.eventtype.private")}</option>
-                      <option value="Firmenevent">{t("contact.form.eventtype.corporate")}</option>
-                      <option value="Sonstiges">{t("contact.form.eventtype.other")}</option>
-                    </select>
-                  </div>
-                </div>
-                <div>
-                  <label className="section-label block mb-2">{t("contact.form.date")}</label>
-                  <input
-                    type="date"
-                    name="date"
-                    value={formData.date}
-                    onChange={handleChange}
-                    className="w-full bg-white/5 border border-white/15 text-white px-4 py-3 text-sm focus:outline-none focus:border-white/50 transition-colors"
-                    style={{ fontFamily: "'Barlow', sans-serif", colorScheme: "dark" }}
-                  />
-                </div>
-                <div>
-                  <label className="section-label block mb-2">{t("contact.form.message")}</label>
-                  <textarea
-                    name="message"
-                    required
-                    value={formData.message}
-                    onChange={handleChange}
-                    rows={5}
-                    placeholder={t("contact.form.message.placeholder")}
-                    className="w-full bg-white/5 border border-white/15 text-white placeholder-white/25 px-4 py-3 text-sm focus:outline-none focus:border-white/50 transition-colors resize-none"
-                    style={{ fontFamily: "'Barlow', sans-serif" }}
-                  />
-                </div>
-                {error && <div className="text-red-400 text-sm mb-2">{error}</div>}
-                <button type="submit" disabled={isLoading} className="btn-primary w-full justify-center mt-2 disabled:opacity-50 disabled:cursor-not-allowed">
-                  {isLoading ? "Wird gesendet..." : t("contact.form.submit")} {!isLoading && <ArrowRight size={16} />}
-                </button>
-              </form>
-            )}
-          </motion.div>
+    <form onSubmit={handleSubmit} className="space-y-4">
+      {submitted && (
+        <div className="bg-black/10 border border-black/20 p-4 rounded text-center">
+          <p className="font-semibold">Vielen Dank! Wir melden uns bald bei Ihnen.</p>
         </div>
-      </div>
-    </section>
-  );
-}
+      )}
+      {error && <div className="text-red-600 text-sm">{error}</div>}
 
-// ─── FOOTER ───────────────────────────────────────────────────────────────────
-function Footer() {
-  const navLinks = [
-    { label: "Leistungen", href: "#leistungen" },
-    { label: "Veranstaltungen", href: "#veranstaltungen" },
-    { label: "Über Uns", href: "#ueber-uns" },
-    { label: "Kontakt", href: "#kontakt" },
-  ];
-
-  const scrollTo = (href: string) => {
-    const el = document.querySelector(href);
-    if (el) el.scrollIntoView({ behavior: "smooth" });
-  };
-
-  return (
-    <footer className="bg-white border-t border-black/10 py-14 md:py-16">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-12">
-          {/* Brand */}
-          <div>
-            <img src={IMAGES.logo} alt="Black Giant Sounds" className="h-14 w-auto mb-4" />
-            <p className="text-black/45 text-sm leading-relaxed" style={{ fontFamily: "'Barlow', sans-serif", fontWeight: 300 }}>
-              Professionelle PA-Systeme, Lichtanlagen und Entertainment für unvergessliche Events.
-            </p>
-          </div>
-
-          {/* Navigation */}
-          <div>
-            <h4
-              className="text-black mb-5 text-sm tracking-widest uppercase"
-              style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 600 }}
-            >
-              Navigation
-            </h4>
-            <ul className="space-y-3">
-              {navLinks.map((link) => (
-                <li key={link.href}>
-                  <button
-                    onClick={() => scrollTo(link.href)}
-                    className="text-black/45 hover:text-black text-sm transition-colors"
-                    style={{ fontFamily: "'Barlow', sans-serif" }}
-                  >
-                    {link.label}
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Contact */}
-          <div>
-            <h4
-              className="text-black mb-5 text-sm tracking-widest uppercase"
-              style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 600 }}
-            >
-              Kontakt
-            </h4>
-            <div className="space-y-3">
-              <div className="flex items-center gap-3 text-black/45 text-sm" style={{ fontFamily: "'Barlow', sans-serif" }}>
-                <MapPin size={14} className="flex-shrink-0" />
-                Wuppertal, Deutschland
-              </div>
-              <div className="flex items-center gap-3 text-black/45 text-sm" style={{ fontFamily: "'Barlow', sans-serif" }}>
-                <Mail size={14} className="flex-shrink-0" />
-                <a href="mailto:stickupmarketing@gmail.com" className="hover:text-black transition-colors break-all">
-                  stickupmarketing@gmail.com
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Bottom bar */}
-        <div className="border-t border-black/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <span className="text-black/40 text-xs">Language:</span>
-            <LanguageToggle />
-          </div>
-          <p className="text-black/30 text-xs" style={{ fontFamily: "'Barlow', sans-serif" }}>
-            © {new Date().getFullYear()} BLACK GIANT SOUNDS. Alle Rechte vorbehalten.
-          </p>
-          <p className="text-black/20 text-xs" style={{ fontFamily: "'Barlow', sans-serif" }}>
-            Wuppertal · Deutschland · Österreich · Schweiz
-          </p>
-        </div>
-      </div>
-    </footer>
-  );
-}
-
-// ─── LANGUAGE TOGGLE ─────────────────────────────────────────────────────────────
-function LanguageToggle() {
-  const { language, setLanguage } = useLanguage();
-
-  return (
-    <div className="flex items-center gap-2">
-      <button
-        onClick={() => setLanguage("de")}
-        className={`text-xs font-semibold transition-colors ${
-          language === "de" ? "text-white" : "text-white/40 hover:text-white/70"
-        }`}
+      <input
+        type="text"
+        name="name"
+        placeholder="Ihr Name"
+        value={formData.name}
+        onChange={handleChange}
+        required
+        className="w-full bg-white border border-black/20 px-4 py-3 text-sm focus:outline-none focus:border-black transition"
+      />
+      <input
+        type="email"
+        name="email"
+        placeholder="E-Mail"
+        value={formData.email}
+        onChange={handleChange}
+        required
+        className="w-full bg-white border border-black/20 px-4 py-3 text-sm focus:outline-none focus:border-black transition"
+      />
+      <input
+        type="tel"
+        name="phone"
+        placeholder="Telefon"
+        value={formData.phone}
+        onChange={handleChange}
+        className="w-full bg-white border border-black/20 px-4 py-3 text-sm focus:outline-none focus:border-black transition"
+      />
+      <select
+        name="eventType"
+        value={formData.eventType}
+        onChange={handleChange}
+        required
+        className="w-full bg-white border border-black/20 px-4 py-3 text-sm focus:outline-none focus:border-black transition"
       >
-        DE
-      </button>
-      <span className="text-white/20">|</span>
+        <option value="">Veranstaltungstyp wählen</option>
+        <option value="Festival">Festival</option>
+        <option value="Hochzeit">Hochzeit</option>
+        <option value="Private Feier">Private Feier</option>
+      </select>
+      <textarea
+        name="message"
+        placeholder="Ihre Nachricht"
+        value={formData.message}
+        onChange={handleChange}
+        rows={4}
+        className="w-full bg-white border border-black/20 px-4 py-3 text-sm focus:outline-none focus:border-black transition"
+      />
       <button
-        onClick={() => setLanguage("en")}
-        className={`text-xs font-semibold transition-colors ${
-          language === "en" ? "text-white" : "text-white/40 hover:text-white/70"
-        }`}
+        type="submit"
+        disabled={isLoading}
+        className="w-full bg-black text-white py-3 font-semibold hover:bg-black/80 transition disabled:opacity-50"
       >
-        EN
+        {isLoading ? "Wird gesendet..." : "Anfrage absenden"}
       </button>
-    </div>
-  );
-}
-
-// ─── MAIN PAGE ────────────────────────────────────────────────────────────────
-export default function Home() {
-  return (
-    <div className="min-h-screen bg-[#0a0a0a]">
-      <Navbar />
-      <Hero />
-      <StatsBar />
-      <Services />
-      <Events />
-      <About />
-      <Testimonials />
-      <Contact />
-      <Footer />
-    </div>
+    </form>
   );
 }
