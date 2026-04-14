@@ -5,7 +5,6 @@ type Language = "de" | "en";
 interface LanguageContextType {
   language: Language;
   setLanguage: (lang: Language) => void;
-  toggleLanguage: () => void;
   t: (key: string) => string;
 }
 
@@ -22,11 +21,6 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const setLanguage = (lang: Language) => {
     setLanguageState(lang);
     localStorage.setItem("language", lang);
-  };
-
-  const toggleLanguage = () => {
-    const newLang = language === "de" ? "en" : "de";
-    setLanguage(newLang);
   };
 
   const t = (key: string): string => {
@@ -247,7 +241,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   };
 
   return (
-    <LanguageContext.Provider value={{ language, setLanguage, toggleLanguage, t }}>
+    <LanguageContext.Provider value={{ language, setLanguage, t }}>
       {children}
     </LanguageContext.Provider>
   );
